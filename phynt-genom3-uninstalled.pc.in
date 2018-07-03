@@ -1,0 +1,11 @@
+# pkg-config file for uninstalled phynt interface and codels library
+#
+prefix=@abs_top_builddir@
+libdir=${prefix}/codels
+includedir=${prefix}/codels
+
+Name: phynt-genom3
+Description: phynt interface and codels library
+Version: @PACKAGE_VERSION@
+Requires: openrobots2-idl >= 2.0, genom3 >= 2.99.26, eigen3
+Libs: ${libdir}/libphynt_codels.la

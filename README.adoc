@@ -1,0 +1,648 @@
+//
+// Copyright (c) 2018 LAAS/CNRS
+// All rights reserved.
+//
+// Redistribution and use  in source  and binary  forms,  with or without
+// modification, are permitted provided that the following conditions are
+// met:
+//
+//   1. Redistributions of  source  code must retain the  above copyright
+//      notice and this list of conditions.
+//   2. Redistributions in binary form must reproduce the above copyright
+//      notice and  this list of  conditions in the  documentation and/or
+//      other materials provided with the distribution.
+//
+//                                      Anthony Mallet on Mon Jun 11 2018
+//
+
+// This file was generated from phynt.gen by the skeleton
+// template. Manual changes should be preserved, although they should
+// rather be added to the "doc" attributes of the genom objects defined in
+// phynt.gen.
+
+= phynt component
+openrobots@laas.fr
+1.0
+:toc: left
+
+// fix default asciidoctor stylesheet issue #2407 and add hr clear rule
+ifdef::backend-html5[]
+[pass]
+++++
+<link rel="stylesheet" href="data:text/css,p{font-size: inherit !important}" >
+<link rel="stylesheet" href="data:text/css,hr{clear: both}" >
+++++
+endif::[]
+
+
+
+== Ports
+
+
+[[state]]
+=== state (in)
+
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Data structure
+[disc]
+ * `struct ::or_pose_estimator::state` `state`
+ ** `struct ::or::time::ts` `ts`
+ *** `unsigned long` `sec`
+ *** `unsigned long` `nsec`
+ ** `boolean` `intrinsic`
+ ** `optional< struct ::or::t3d::pos >` `pos`
+ *** `double` `x`
+ *** `double` `y`
+ *** `double` `z`
+ ** `optional< struct ::or::t3d::att >` `att`
+ *** `double` `qw`
+ *** `double` `qx`
+ *** `double` `qy`
+ *** `double` `qz`
+ ** `optional< struct ::or::t3d::vel >` `vel`
+ *** `double` `vx`
+ *** `double` `vy`
+ *** `double` `vz`
+ ** `optional< struct ::or::t3d::avel >` `avel`
+ *** `double` `wx`
+ *** `double` `wy`
+ *** `double` `wz`
+ ** `optional< struct ::or::t3d::acc >` `acc`
+ *** `double` `ax`
+ *** `double` `ay`
+ *** `double` `az`
+ ** `optional< struct ::or::t3d::aacc >` `aacc`
+ *** `double` `awx`
+ *** `double` `awy`
+ *** `double` `awz`
+ ** `optional< struct ::or::t3d::pos_cov >` `pos_cov`
+ *** `double` `cov[6]`
+ ** `optional< struct ::or::t3d::att_cov >` `att_cov`
+ *** `double` `cov[10]`
+ ** `optional< struct ::or::t3d::att_pos_cov >` `att_pos_cov`
+ *** `double` `cov[12]`
+ ** `optional< struct ::or::t3d::vel_cov >` `vel_cov`
+ *** `double` `cov[6]`
+ ** `optional< struct ::or::t3d::avel_cov >` `avel_cov`
+ *** `double` `cov[6]`
+ ** `optional< struct ::or::t3d::acc_cov >` `acc_cov`
+ *** `double` `cov[6]`
+ ** `optional< struct ::or::t3d::aacc_cov >` `aacc_cov`
+ *** `double` `cov[6]`
+
+|===
+
+'''
+
+[[wrench_measure]]
+=== wrench_measure (in)
+
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Data structure
+[disc]
+ * `struct ::or_wrench_estimator::state` `wrench_measure`
+ ** `struct ::or::time::ts` `ts`
+ *** `unsigned long` `sec`
+ *** `unsigned long` `nsec`
+ ** `boolean` `intrinsic`
+ ** `optional< struct ::or::rb3d::force >` `force`
+ *** `double` `x`
+ *** `double` `y`
+ *** `double` `z`
+ ** `optional< struct ::or::rb3d::force_cov >` `force_cov`
+ *** `double` `cov[6]`
+ ** `optional< struct ::or::rb3d::torque >` `torque`
+ *** `double` `x`
+ *** `double` `y`
+ *** `double` `z`
+ ** `optional< struct ::or::rb3d::torque_cov >` `torque_cov`
+ *** `double` `cov[6]`
+
+|===
+
+'''
+
+[[reference]]
+=== reference (in)
+
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Data structure
+[disc]
+ * `struct ::or_rigid_body::state` `reference`
+ ** `struct ::or::time::ts` `ts`
+ *** `unsigned long` `sec`
+ *** `unsigned long` `nsec`
+ ** `boolean` `intrinsic`
+ ** `optional< struct ::or::t3d::pos >` `pos`
+ *** `double` `x`
+ *** `double` `y`
+ *** `double` `z`
+ ** `optional< struct ::or::t3d::att >` `att`
+ *** `double` `qw`
+ *** `double` `qx`
+ *** `double` `qy`
+ *** `double` `qz`
+ ** `optional< struct ::or::t3d::vel >` `vel`
+ *** `double` `vx`
+ *** `double` `vy`
+ *** `double` `vz`
+ ** `optional< struct ::or::t3d::avel >` `avel`
+ *** `double` `wx`
+ *** `double` `wy`
+ *** `double` `wz`
+ ** `optional< struct ::or::t3d::acc >` `acc`
+ *** `double` `ax`
+ *** `double` `ay`
+ *** `double` `az`
+ ** `optional< struct ::or::t3d::aacc >` `aacc`
+ *** `double` `awx`
+ *** `double` `awy`
+ *** `double` `awz`
+ ** `optional< struct ::or::t3d::jerk >` `jerk`
+ *** `double` `jx`
+ *** `double` `jy`
+ *** `double` `jz`
+ ** `optional< struct ::or::t3d::snap >` `snap`
+ *** `double` `sx`
+ *** `double` `sy`
+ *** `double` `sz`
+
+|===
+
+'''
+
+[[desired]]
+=== desired (out)
+
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Data structure
+[disc]
+ * `struct ::or_rigid_body::state` `desired`
+ ** `struct ::or::time::ts` `ts`
+ *** `unsigned long` `sec`
+ *** `unsigned long` `nsec`
+ ** `boolean` `intrinsic`
+ ** `optional< struct ::or::t3d::pos >` `pos`
+ *** `double` `x`
+ *** `double` `y`
+ *** `double` `z`
+ ** `optional< struct ::or::t3d::att >` `att`
+ *** `double` `qw`
+ *** `double` `qx`
+ *** `double` `qy`
+ *** `double` `qz`
+ ** `optional< struct ::or::t3d::vel >` `vel`
+ *** `double` `vx`
+ *** `double` `vy`
+ *** `double` `vz`
+ ** `optional< struct ::or::t3d::avel >` `avel`
+ *** `double` `wx`
+ *** `double` `wy`
+ *** `double` `wz`
+ ** `optional< struct ::or::t3d::acc >` `acc`
+ *** `double` `ax`
+ *** `double` `ay`
+ *** `double` `az`
+ ** `optional< struct ::or::t3d::aacc >` `aacc`
+ *** `double` `awx`
+ *** `double` `awy`
+ *** `double` `awz`
+ ** `optional< struct ::or::t3d::jerk >` `jerk`
+ *** `double` `jx`
+ *** `double` `jy`
+ *** `double` `jz`
+ ** `optional< struct ::or::t3d::snap >` `snap`
+ *** `double` `sx`
+ *** `double` `sy`
+ *** `double` `sz`
+
+|===
+
+'''
+
+[[external_wrench]]
+=== external_wrench (out)
+
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Data structure
+[disc]
+ * `struct ::or_wrench_estimator::state` `external_wrench`
+ ** `struct ::or::time::ts` `ts`
+ *** `unsigned long` `sec`
+ *** `unsigned long` `nsec`
+ ** `boolean` `intrinsic`
+ ** `optional< struct ::or::rb3d::force >` `force`
+ *** `double` `x`
+ *** `double` `y`
+ *** `double` `z`
+ ** `optional< struct ::or::rb3d::force_cov >` `force_cov`
+ *** `double` `cov[6]`
+ ** `optional< struct ::or::rb3d::torque >` `torque`
+ *** `double` `x`
+ *** `double` `y`
+ *** `double` `z`
+ ** `optional< struct ::or::rb3d::torque_cov >` `torque_cov`
+ *** `double` `cov[6]`
+
+|===
+
+'''
+
+== Services
+
+[[set_mass]]
+=== set_mass (attribute)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Inputs
+[disc]
+ * `double` `mass`
+
+|===
+
+'''
+
+[[set_geom]]
+=== set_geom (attribute)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Inputs
+[disc]
+ * `double` `J[9]` Inertia matrix
+
+|===
+
+'''
+
+[[set_af_parameters]]
+=== set_af_parameters (attribute)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Inputs
+[disc]
+ * `double` `mass` Apparent mass
+
+ * `double` `B[6]` Apparent damping
+
+ * `double` `K[6]` Apparent sprinf stiffness
+
+ * `double` `J[9]` Apparent inertia matrix
+
+|===
+
+'''
+
+[[set_af_wrench]]
+=== set_af_wrench (attribute)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Inputs
+[disc]
+ * `struct ::or::rb3d::force` `force`
+ ** `double` `x`
+ ** `double` `y`
+ ** `double` `z`
+
+ * `struct ::or::rb3d::torque` `torque`
+ ** `double` `x`
+ ** `double` `y`
+ ** `double` `z`
+
+|===
+
+'''
+
+[[set_wo_gains]]
+=== set_wo_gains (attribute)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Inputs
+[disc]
+ * `double` `K[6]` Wrench observer gains
+
+|===
+
+'''
+
+[[get_body_parameters]]
+=== get_body_parameters (attribute)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Outputs
+[disc]
+ * `struct ::phynt::ids::body_s` `body`
+ ** `double` `J[9]`
+ ** `double` `mass`
+
+|===
+
+'''
+
+[[get_reference]]
+=== get_reference (attribute)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Outputs
+[disc]
+ * `struct ::or_rigid_body::state` `reference`
+ ** `struct ::or::time::ts` `ts`
+ *** `unsigned long` `sec`
+ *** `unsigned long` `nsec`
+ ** `boolean` `intrinsic`
+ ** `optional< struct ::or::t3d::pos >` `pos`
+ *** `double` `x`
+ *** `double` `y`
+ *** `double` `z`
+ ** `optional< struct ::or::t3d::att >` `att`
+ *** `double` `qw`
+ *** `double` `qx`
+ *** `double` `qy`
+ *** `double` `qz`
+ ** `optional< struct ::or::t3d::vel >` `vel`
+ *** `double` `vx`
+ *** `double` `vy`
+ *** `double` `vz`
+ ** `optional< struct ::or::t3d::avel >` `avel`
+ *** `double` `wx`
+ *** `double` `wy`
+ *** `double` `wz`
+ ** `optional< struct ::or::t3d::acc >` `acc`
+ *** `double` `ax`
+ *** `double` `ay`
+ *** `double` `az`
+ ** `optional< struct ::or::t3d::aacc >` `aacc`
+ *** `double` `awx`
+ *** `double` `awy`
+ *** `double` `awz`
+ ** `optional< struct ::or::t3d::jerk >` `jerk`
+ *** `double` `jx`
+ *** `double` `jy`
+ *** `double` `jz`
+ ** `optional< struct ::or::t3d::snap >` `snap`
+ *** `double` `sx`
+ *** `double` `sy`
+ *** `double` `sz`
+
+|===
+
+'''
+
+[[get_wo_parameters]]
+=== get_wo_parameters (attribute)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Outputs
+[disc]
+ * `struct ::phynt::ids::wo_s` `wo`
+ ** `double` `K[6]`
+ ** `double` `bias[6]`
+
+|===
+
+'''
+
+[[get_af_parameters]]
+=== get_af_parameters (attribute)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Outputs
+[disc]
+ * `struct ::phynt::ids::af_s` `af`
+ ** `boolean` `enable`
+ ** `double` `mass`
+ ** `double` `B[6]`
+ ** `double` `K[6]`
+ ** `double` `J[9]`
+ ** `struct ::or::rb3d::force` `force`
+ *** `double` `x`
+ *** `double` `y`
+ *** `double` `z`
+ ** `struct ::or::rb3d::torque` `torque`
+ *** `double` `x`
+ *** `double` `y`
+ *** `double` `z`
+
+|===
+
+'''
+
+[[servo]]
+=== servo (activity)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Throws
+[disc]
+ * `exception ::phynt::e_input`
+
+a|.Context
+[disc]
+  * In task `<<main>>`
+  (frequency 1000.0 _Hz_)
+  * Reads port `<<reference>>`
+|===
+
+Track a desired position
+
+'''
+
+[[set_state]]
+=== set_state (function)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Inputs
+[disc]
+ * `struct ::or::t3d::pos` `pos`: Position
+ ** `double` `x`
+ ** `double` `y`
+ ** `double` `z`
+
+ * `struct ::or::t3d::att` `att`: Orientation
+ ** `double` `qw`
+ ** `double` `qx`
+ ** `double` `qy`
+ ** `double` `qz`
+
+ * `struct ::or::t3d::vel` `vel`: Linear velocity
+ ** `double` `vx`
+ ** `double` `vy`
+ ** `double` `vz`
+
+ * `struct ::or::t3d::avel` `avel`: Angular velocity
+ ** `double` `wx`
+ ** `double` `wy`
+ ** `double` `wz`
+
+ * `struct ::or::t3d::acc` `acc`: Acceleration
+ ** `double` `ax`
+ ** `double` `ay`
+ ** `double` `az`
+
+ * `struct ::or::t3d::aacc` `aacc`: Angular acceleration
+ ** `double` `awx`
+ ** `double` `awy`
+ ** `double` `awz`
+
+ * `struct ::or::t3d::jerk` `jerk`: Linear jerk
+ ** `double` `jx`
+ ** `double` `jy`
+ ** `double` `jz`
+
+ * `struct ::or::t3d::snap` `snap`: Linear snap
+ ** `double` `sx`
+ ** `double` `sy`
+ ** `double` `sz`
+
+a|.Context
+[disc]
+  * Interrupts `<<servo>>`
+|===
+
+Set the desired state
+
+'''
+
+[[set_position]]
+=== set_position (function)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Inputs
+[disc]
+ * `double` `x`
+
+ * `double` `y`
+
+ * `double` `z`
+
+ * `double` `yaw`
+
+a|.Context
+[disc]
+  * Interrupts `<<servo>>`
+|===
+
+Set the desired position
+
+'''
+
+[[set_current_position]]
+=== set_current_position (activity)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Throws
+[disc]
+ * `exception ::phynt::e_input`
+
+a|.Context
+[disc]
+  * In task `<<main>>`
+  (frequency 1000.0 _Hz_)
+  * Reads port `<<state>>`
+  * Interrupts `<<servo>>`
+|===
+
+Set the desired position
+
+'''
+
+[[stop]]
+=== stop (function)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Context
+[disc]
+  * Interrupts `<<servo>>`
+|===
+
+Stop tracking a desired position
+
+'''
+
+[[log]]
+=== log (function)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Inputs
+[disc]
+ * `string<64>` `path` (default `"/tmp/phynt.log"`) Log file name
+
+ * `unsigned long` `decimation` (default `"1"`) Reduced logging frequency
+
+a|.Throws
+[disc]
+ * `exception ::phynt::e_sys`
+ ** `short` `code`
+ ** `string<128>` `what`
+
+|===
+
+Log controller data
+
+'''
+
+[[log_stop]]
+=== log_stop (function)
+
+
+Stop logging
+
+'''
+
+[[log_info]]
+=== log_info (function)
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Outputs
+[disc]
+ * `unsigned long` `miss` Missed log entries
+
+ * `unsigned long` `total` Total log entries
+
+|===
+
+Show missed log entries
+
+'''
+
+== Tasks
+
+[[main]]
+=== main
+
+[role="small", width="50%", float="right", cols="1"]
+|===
+a|.Context
+[disc]
+  * Frequency 1000.0 _Hz_
+* Reads port `<<state>>`
+* Reads port `<<wrench_measure>>`
+* Updates port `<<desired>>`
+* Updates port `<<external_wrench>>`
+|===
+
+'''

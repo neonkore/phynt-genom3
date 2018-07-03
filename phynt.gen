@@ -1,0 +1,195 @@
+/*/
+ * Copyright (c) 2018 LAAS/CNRS
+ * All rights reserved.
+ *
+ * Redistribution and use  in source  and binary  forms,  with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ *   1. Redistributions of  source  code must retain the  above copyright
+ *      notice and this list of conditions.
+ *   2. Redistributions in binary form must reproduce the above copyright
+ *      notice and  this list of  conditions in the  documentation and/or
+ *      other materials provided with the distribution.
+ *
+ *                                      Anthony Mallet on Mon Jun 11 2018
+ */
+#pragma require "openrobots2-idl >= 2.0"
+
+#include "or/pose/pose_estimator.gen"
+#include "or/pose/wrench_estimator.gen"
+#include "or/pose/rigid_body.gen"
+#include "or/pose/rb3d.idl"
+
+component phynt {
+  version		"1.0";
+  email			"openrobots@laas.fr";
+  lang			"c";
+  require		"genom3 >= 2.99.26";
+  codels-require	"eigen3";
+
+  uses		or_pose_estimator;
+  uses		or_wrench_estimator;
+  provides	or_wrench_estimator;
+
+  port in	or_pose_estimator::state state;
+  port in	or_wrench_estimator::state wrench_measure;
+  port in	or_rigid_body::state reference;
+  port out	or_rigid_body::state desired;
+  port out	or_wrench_estimator::state external_wrench;
+
+  exception e_input;
+  exception e_sys { short code; string<128> what; };
+
+  native log_s;
+
+  ids {
+    struct body_s {
+      double J[3 * 3]; /* inertia matrix */
+      double mass;
+    } body;
+
+    struct af_s {
+      double mass;	/* apparent mass */
+      double B[6];	/* apparent damping */
+      double K[6];	/* apparent sping stiffness */
+      double J[3 * 3];	/* apparent inertia matrix */
+
+      or::rb3d::force force;
+      or::rb3d::torque torque;
+    } af;
+
+    struct wo_s {
+      double K[6];	/* observer gains */
+
+      double bias[6];	/* bias */
+    } wo;
+
+    or_rigid_body::state reference;
+
+    /* logging */
+    log_s log;
+  };
+
+  attribute set_mass(in body.mass);
+  attribute set_geom(in body.J =: "Inertia matrix");
+
+  attribute set_af_parameters(
+    in af.mass =: "Apparent mass",
+    in af.B =: "Apparent damping",
+    in af.K =: "Apparent sprinf stiffness",
+    in af.J =: "Apparent inertia matrix") {
+    validate phynt_set_af_parameters(local in J);
+  };
+  attribute set_af_wrench(in af.force, in af.torque);
+
+  attribute set_wo_gains(in wo.K =: "Wrench observer gains");
+
+  attribute get_body_parameters(out body);
+  attribute get_reference(out reference);
+  attribute get_wo_parameters(out wo);
+  attribute get_af_parameters(out af);
+
+
+  /* --- control ----------------------------------------------------------- */
+
+  const unsigned short control_period_ms = 1;
+
+  task main {
+    period control_period_ms ms;
+
+    codel<start> phynt_main_start(out ::ids, out desired)
+      yield control;
+    codel<control> phynt_main_control(in body, inout af, in wo,
+                                      in state, in wrench_measure,
+                                      ids inout reference, inout log,
+                                      out desired, out external_wrench)
+      yield pause::control;
+    codel<stop> phynt_main_stop(out desired)
+      yield ether;
+  };
+
+
+  activity servo() {
+    doc		"Track a desired position";
+    task	main;
+
+    codel<start> phynt_servo_loop(port in reference::in, ids out reference)
+      yield pause::start, ether;
+
+    throw e_input;
+  };
+
+  function set_state(
+    in or::t3d::pos pos =: "Position",
+    in or::t3d::att att =: "Orientation",
+    in or::t3d::vel vel =: "Linear velocity",
+    in or::t3d::avel avel =: "Angular velocity",
+    in or::t3d::acc acc =: "Acceleration",
+    in or::t3d::aacc aacc =: "Angular acceleration",
+    in or::t3d::jerk jerk =: "Linear jerk",
+    in or::t3d::snap snap =: "Linear snap") {
+    doc		"Set the desired state";
+
+    codel phynt_set_state(in pos, in att,
+                          in vel, in avel,
+                          in acc, in aacc,
+                          in jerk, in snap,
+                          ids out reference);
+
+    interrupt servo;
+  };
+
+  function set_position(
+    in double x, in double y, in double z, in double yaw) {
+    doc		"Set the desired position";
+
+    codel phynt_set_position(in x, in y, in z, in yaw, ids out reference);
+
+    interrupt servo;
+  };
+
+  activity set_current_position() {
+    doc		"Set the desired position";
+    task	main;
+
+    codel<start> phynt_set_current_position(in state, ids out reference)
+      yield ether;
+
+    interrupt servo;
+    throw e_input;
+  };
+
+  function stop() {
+    doc		"Stop tracking a desired position";
+
+    codel phynt_servo_stop(ids out reference);
+
+    interrupt servo;
+  };
+
+
+  /* --- logging ----------------------------------------------------------- */
+
+  function log(in string<64> path = "/tmp/phynt.log": "Log file name",
+               in unsigned long decimation = 1: "Reduced logging frequency") {
+    doc		"Log controller data";
+
+    codel phynt_log(in path, in decimation, inout log);
+
+    throw e_sys;
+  };
+
+  function log_stop() {
+    doc		"Stop logging";
+
+    codel phynt_log_stop(out log);
+  };
+
+  function log_info(out unsigned long miss = :"Missed log entries",
+                    out unsigned long total = :"Total log entries") {
+    doc		"Show missed log entries";
+
+    codel phynt_log_info(in log, out miss, out total);
+  };
+};

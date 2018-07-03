@@ -1,0 +1,15 @@
+# pkg-config file for phynt interface and codels library
+#
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+datarootdir=@datarootdir@
+idldir=@datadir@/idl
+
+Name: phynt-genom3
+Description: phynt interface and codels library
+Version: @PACKAGE_VERSION@
+Requires: openrobots2-idl >= 2.0, genom3 >= 2.99.26, eigen3
+Cflags: -I${includedir} -I${idldir}
+Libs: -L${libdir} -lphynt_codels
