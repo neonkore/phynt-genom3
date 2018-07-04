@@ -116,6 +116,8 @@ component phynt {
 
     codel<start> phynt_servo_loop(port in reference::in, ids out reference)
       yield pause::start, ether;
+    codel<stop> phynt_servo_stop(ids out reference)
+      yield ether;
 
     throw e_input;
   };
@@ -162,8 +164,6 @@ component phynt {
 
   function stop() {
     doc		"Stop tracking a desired position";
-
-    codel phynt_servo_stop(ids out reference);
 
     interrupt servo;
   };

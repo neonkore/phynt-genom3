@@ -218,6 +218,28 @@ phynt_servo_loop(const phynt_reference *in,
   return phynt_pause_start;
 }
 
+/** Codel phynt_servo_stop of activity servo.
+ *
+ * Triggered by phynt_stop.
+ * Yields to phynt_ether.
+ * Throws phynt_e_input.
+ */
+genom_event
+phynt_servo_stop(or_rigid_body_state *reference,
+                 const genom_context self)
+{
+  (void)self; /* -Wunused-parameter */
+
+  reference->vel._present = false;
+  reference->avel._present = false;
+  reference->acc._present = false;
+  reference->aacc._present = false;
+  reference->jerk._present = false;
+  reference->snap._present = false;
+
+  return phynt_ether;
+}
+
 
 /* --- Activity set_current_position ------------------------------------ */
 

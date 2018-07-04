@@ -153,38 +153,6 @@ phynt_set_position(double x, double y, double z, double yaw,
 }
 
 
-/* --- Function stop ---------------------------------------------------- */
-
-/** Codel phynt_servo_stop of function stop.
- *
- * Returns genom_ok.
- */
-genom_event
-phynt_servo_stop(or_rigid_body_state *reference,
-                 const genom_context self)
-{
-  (void)self; /* -Wunused-parameter */
-
-  struct timeval tv;
-
-  gettimeofday(&tv, NULL);
-  reference->ts.sec = tv.tv_sec;
-  reference->ts.nsec = tv.tv_usec * 1000.;
-  reference->intrinsic = false;
-
-  reference->pos._present = false;
-  reference->att._present = false;
-  reference->vel._present = false;
-  reference->avel._present = false;
-  reference->acc._present = false;
-  reference->aacc._present = false;
-  reference->jerk._present = false;
-  reference->snap._present = false;
-
-  return genom_ok;
-}
-
-
 /* --- Function log ----------------------------------------------------- */
 
 /** Codel phynt_log of function log.
