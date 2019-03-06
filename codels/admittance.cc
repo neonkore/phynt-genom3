@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 LAAS/CNRS
+ * Copyright (c) 2018-2019 LAAS/CNRS
  * All rights reserved.
  *
  * Redistribution  and  use  in  source  and binary  forms,  with  or  without
@@ -24,6 +24,7 @@
 #include "acphynt.h"
 
 #include <err.h>
+#include <unistd.h>
 
 #include <cmath>
 #include <cstdio>
